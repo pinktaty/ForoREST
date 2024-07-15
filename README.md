@@ -20,11 +20,64 @@ Assuming the server is running on port 8080:
 
 ## Structure
 - `./src/main/java/com/pinktaty/foroREST/ForoRestApplication.java`: Program's entry point.
+- `./src/main/java/com/pinktaty/foroREST/CorsConfiguration.java`: Class that configures the Cross-Origin Resource Sharing (CORS) policy for the API.
+
+### Controllers
+- `./src/main/java/com/pinktaty/foroREST/controller/AutenticacionController.java`: REST controller responsible for handling login requests, authenticating users, and generating JWT tokens for authenticated requests.
+- `./src/main/java/com/pinktaty/foroREST/controller/CursoController.java`: REST controller handling requests related to courses.
+- `./src/main/java/com/pinktaty/foroREST/controller/TopicoController.java`: REST controller managing operations related to discussion topics.
+
+### Domains
+
+#### User
+- `./src/main/java/com/pinktaty/foroREST/domain/usuario/Usuario.java`: Class representing the Usuario (user) entity in the database using JPA (Java Persistence API).
+- `./src/main/java/com/pinktaty/foroREST/domain/usuario/AutenticacionUsuario.java`: Record encapsulating the necessary data for user authentication.
+- `./src/main/java/com/pinktaty/foroREST/domain/usuario/UsuarioRepository.java`: Interface extending JpaRepository from Spring Data JPA, allowing management of the database with available users for the authentication process.
+
+#### Course
+- `./src/main/java/com/pinktaty/foroREST/domain/curso/Curso.java`: Class representing the Curso (course) entity in the database.
+- `./src/main/java/com/pinktaty/foroREST/domain/curso/CursoService.java`: Service component providing methods to interact with courses, using CursoRepository to access the persistence layer.
+- `./src/main/java/com/pinktaty/foroREST/domain/curso/CursoRepository.java`: Interface extending JpaRepository from Spring Data JPA, providing methods for CRUD operations and custom queries on the Curso entity.
+
+### Topics
+
+#### Topic
+- `./src/main/java/com/pinktaty/foroREST/domain/topico/Topico.java`: Class defining the persistence entity Topico, representing a topic in the application.
+- `./src/main/java/com/pinktaty/foroREST/domain/topico/Estado.java`: Enum defining different possible states for a Topico.
+- `./src/main/java/com/pinktaty/foroREST/domain/topico/TopicoService.java`: Class responsible for handling business logic related to Topico entities.
+- `./src/main/java/com/pinktaty/foroREST/domain/topico/TopicoRespository.java`: Interface extending JpaRepository for managing Topico entities through database connections.
+- `./src/main/java/com/pinktaty/foroREST/domain/topico/DatosRegistroTopico.java`: Record encapsulating the necessary data to register a new Topico in the application.
+- `./src/main/java/com/pinktaty/foroREST/domain/topico/DatosRespuestaTopico.java`: Record encapsulating the response data of a Topico to be returned as a result of requests to the application.
+- `./src/main/java/com/pinktaty/foroREST/domain/topico/DatosActualizaTopico.java`: Record encapsulating the necessary data to update a Topico in the application.
+- `./src/main/java/com/pinktaty/foroREST/domain/topico/DatosListadoTopico.java`: Record used to represent the data of a Topico in listing contexts.
+
+### Infrastructure
+
+#### Security
+- `./src/main/java/com/pinktaty/foroREST/infra/security/SecurityConfiguration.java`: Configuration file configuring security using Spring Security.
+- `./src/main/java/com/pinktaty/foroREST/infra/security/DatosJWTToken.java`: Record encapsulating a jwtToken field, used to represent a JWT (JSON Web Token).
+- `./src/main/java/com/pinktaty/foroREST/infra/security/TokenService.java`: Class handling the generation and verification of JWT tokens for authentication in the application.
+- `./src/main/java/com/pinktaty/foroREST/infra/security/AutenticacionService.java`: Class implementing Spring Security's UserDetailsService responsible for loading user details based on the username.
+- `./src/main/java/com/pinktaty/foroREST/infra/security/SecurityFilter.java`: Custom Spring Security filter class designed to intercept incoming requests and verify the authenticity of JWT tokens in the Authorization header.
+
+### Infrastructure
+
+#### Security
+- `./src/main/java/com/pinktaty/foroREST/infra/security/SecurityConfiguration.java`: Configuration file that sets up security using Spring Security.
+- `./src/main/java/com/pinktaty/foroREST/infra/security/DatosJWTToken.java`: Record encapsulating a jwtToken field, used to represent a JWT (JSON Web Token).
+- `./src/main/java/com/pinktaty/foroREST/infra/security/TokenService.java`: Class responsible for generating and verifying JWT tokens for authentication in the application.
+- `./src/main/java/com/pinktaty/foroREST/infra/security/AutenticacionService.java`: Class implementing Spring Security's UserDetailsService, responsible for loading user details based on the username.
+- `./src/main/java/com/pinktaty/foroREST/infra/security/SecurityFilter.java`: Custom Spring Security filter class designed to intercept incoming requests and verify the authenticity of JWT tokens in the Authorization header.
+
+### Error Handling
+- `./src/main/java/com/pinktaty/foroREST/infra/errores/TratadorErrores.java`: Global exception handler responsible for managing exceptions and returning appropriate responses based on the error type.
+
+### Database Generation
+- `./src/main/resources/db/migration`: Folder containing SQL scripts that, through Flyway Database Migration, generate the database used by the application.
 
 ## Observations
 
-For the correct execution of the api, make sure to create a MySQL database named "foro" and add the username 
-and password for managing it to the file
+For the correct execution of the api, make sure to create a MySQL database named "foro" and add the username and password for managing it to the file
 ```bash
 ./src/main/resources/application.properties.
 ```
@@ -52,6 +105,78 @@ Asumiendo que el servidor se está ejecutando en el puerto 8080:
 
 ## Estructura
 - `./src/main/java/com/pinktaty/foroREST/ForoRestApplication.java`: Punto de entrada del programa.
+- `./src/main/java/com/pinktaty/foroREST/CorsConfiguration.java`: Clase que configura la política de Cross-Origin 
+  Resource Sharing (CORS) para la API.
+
+### Controladores
+- `./src/main/java/com/pinktaty/foroREST/controller/AutenticacionController.java`: Controlador REST que se encarga 
+  de recibir las solicitudes de inicio de sesión, autenticar a los usuarios y generar tokens JWT para las solicitudes autenticadas.
+- `./src/main/java/com/pinktaty/foroREST/controller/CursoController.java`: Controlador REST que maneja las 
+  solicitudes relacionadas con los cursos.
+- `./src/main/java/com/pinktaty/foroREST/controller/TopicoController.java`: Controlador REST que maneja las 
+  operaciones relacionadas con los tópicos de discusión.
+
+### Dominios
+
+#### Usuario
+- `./src/main/java/com/pinktaty/foroREST/domain/usuario/Usuario.java`: Clase que representa la entidad de 
+  Usuario en la base de datos utilizando JPA (Java Persistence API).
+- `./src/main/java/com/pinktaty/foroREST/domain/usuario/AutenticacionUsuario.java`: Record que encapsula los datos 
+  necesarios para la autenticación de un usuario.
+- `./src/main/java/com/pinktaty/foroREST/domain/usuario/UsuarioRepository.java`: Interfaz que extiende JpaRepository de
+  Spring Data JPA y que permite 
+  manejar la 
+  base de datos con los usuarios disponibles para el proceso de autenticación.
+
+#### Curso
+- `./src/main/java/com/pinktaty/foroREST/domain/curso/Curso.java`: Clase que representa la entidad Curso en la base de 
+  datos.
+- `./src/main/java/com/pinktaty/foroREST/domain/curso/CursoService.java`: Componente de servicio que proporciona 
+  métodos para interactuar con los cursos, utilizando el repositorio CursoRepository para acceder a la capa de persistencia.
+- `./src/main/java/com/pinktaty/foroREST/domain/curso/CursoRepository.java`: Interfaz que extiende JpaRepository de 
+  Spring Data JPA y proporciona métodos para realizar operaciones CRUD y consultas personalizadas en la entidad 
+  Curso.
+
+#### Topico
+- `./src/main/java/com/pinktaty/foroREST/domain/topico/Topico.java`: Clase que define la entidad de persistencia Topico 
+  que 
+  representa un tema en la aplicación.
+- `./src/main/java/com/pinktaty/foroREST/domain/topico/Estado.java`: Enum que define diferentes estados 
+  posibles para un 
+  Topico.
+- `./src/main/java/com/pinktaty/foroREST/domain/topico/TopicoService.java`: Clase que se encarga de manejar la 
+  lógica de negocio relacionada con las entidades Topico.
+- `./src/main/java/com/pinktaty/foroREST/domain/topico/TopicoRespository.java`: Interfaz que extiende JpaRepository 
+  para la gestión de entidades Topico por medio de la conexión a la base de datos.
+- `./src/main/java/com/pinktaty/foroREST/domain/topico/DatosRegistroTopico.java`: Record que encapsula los datos 
+  necesarios para registrar un nuevo Topico en la aplicación.
+- `./src/main/java/com/pinktaty/foroREST/domain/topico/DatosRespuestaTopico.java`: Record que encapsula los datos de 
+  respuesta de un Topico para ser devueltos como resultado de requests a la aplicación.
+- `./src/main/java/com/pinktaty/foroREST/domain/topico/DatosActualizaTopico.java`: Record que encapsula los datos necesarios para actualizar un Topico en la aplicación.
+- `./src/main/java/com/pinktaty/foroREST/domain/topico/DatosListadoTopico.java`: Record utilizado para representar 
+  los datos de un Topico en el contexto de listados.
+
+### Infraestructura
+
+#### Seguridad
+- `./src/main/java/com/pinktaty/foroREST/infra/security/SecurityConfiguration.java`: Archivo de configuración 
+  que configura la seguridad utilizando Spring Security.
+- `./src/main/java/com/pinktaty/foroREST/infra/security/DatosJWTToken.java`: Record que encapsula un campo jwtToken, 
+  utilizado para representar un token JWT (JSON Web Tokens).
+- `./src/main/java/com/pinktaty/foroREST/infra/security/TokenService.java`: Clase que maneja la generación y 
+  verificación de tokens JWT para la autenticación en la aplicación.
+- `./src/main/java/com/pinktaty/foroREST/infra/security/AutenticacionService.java`: Clase que implementa UserDetailsService de Spring Security y se encarga de cargar los detalles del usuario a partir del nombre de usuario.
+- `./src/main/java/com/pinktaty/foroREST/infra/security/SecurityFilter.java`: Clase filtro personalizado de Spring 
+  Security diseñado para interceptar las solicitudes entrantes y verificar la autenticidad de los tokens JWT en el encabezado de autorización.
+
+### Manejo de errores
+- `./src/main/java/com/pinktaty/foroREST/infra/errores/TratadorErrores.java`: Manejador global de excepciones  que se encarga de manejar excepciones y devolver respuestas adecuadas según el tipo de error.
+
+### Generación de base de datos
+- `./src/main/resources/db/migration`: Carpeta que contiene scripts SQL que por medio de Flyway Database Migration 
+  generan la 
+  base de 
+  datos a usar por la aplicación.
 
 ## Observaciones
 
